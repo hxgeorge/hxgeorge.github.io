@@ -24,14 +24,13 @@
       Learn more at <a href="http://web.dev/web-otp">http://web.dev/web-otp</a>.
     </div>
     <script>
+    const input = document.querySelector('input[autocomplete="one-time-code"]');
     document.querySelector('form').addEventListener('submit', e => {
-      alert('Submitted manually');
+      alert('Submitted manually: ' + input.value);
       e.preventDefault();
     })
     if ('OTPCredential' in window) {
       window.addEventListener('DOMContentLoaded', e => {
-        const input = document.querySelector('input[autocomplete="one-time-code"]');
-        if (!input) return;
         const ac = new AbortController();
         const form = input.closest('form');
         if (form) {
@@ -45,7 +44,7 @@
           signal: ac.signal
         }).then(otp => {
           input.value = otp.code;
-          if (form) alert(input.value);
+          if (form) alert('Submitted automatically: ' + input.value);
         }).catch(err => {
           console.log(err);
         });
